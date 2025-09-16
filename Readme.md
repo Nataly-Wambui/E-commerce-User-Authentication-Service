@@ -77,31 +77,57 @@ Failure → 400 Bad Requests or 401 Unauthorized.
 
 ## Basic Service Implementation (Skeleton)
 This is = (skeleton + unit tests)
-/auth-service
-  ├─ src/
+
+### /auth-service
+
+  #### ├─ src/
+  
   │   ├─ main.py              (startup)
 
-  │   ├─ routes/
+  |
+
+####  │   ├─ routes/
+  
   │   │   ├─ auth.py          ( register, login, refresh token)
+  
   │   │   └─ users.py         (get/update profile)
 
-  │   ├─ db/
+  |
+
+  #### │   ├─ db/
+  
   │   │   ├─ models.py        (User model)
-  │   │   └─ migrations/     
- 
-  │   ├─ security/
+  
+  │   │   └─ migrations/    
+  
+  |
+  
+ #### │   ├─ security/
+  
   │   │   ├─ jwt.py           (JWT sign/verify)
+  
   │   │   └─ hash.py          (password hashing )
-  │   ├─ middleware/     
+  
+  │   ├─ middleware/
+  
+  | 
      
-  │     ├─ tests/
+ #### │     ├─ tests/
+  
   │   ├─ test_register.py    (covers new user + duplicate)
+  
   │   ├─ test_login.py        (covers login success/fail)
+  
   │   ├─ test_profile.py      (covers auth token usage)
+  
   │
-  ├─ Dockerfile              
-  ├─ docker-compose.yml       
-  ├─ README.md              
+  
+  ├─ Dockerfile   
+  
+  ├─ docker-compose.yml 
+  
+  ├─ README.md 
+  
   └─ Makefile
 
 
