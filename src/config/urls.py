@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include, re_path
+from django.http import JsonResponse  # ✅ Use JsonResponse
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -15,9 +16,23 @@ schema_view = get_schema_view(
     permission_classes=[permissions.AllowAny],
 )
 
+# ✅ JSON response for home
+def home(request):
+    return JsonResponse({
+        "message": "Welcome to the User Auth Service API!",
+        "docs": {
+            "swagger": "/swagger/",
+            "redoc": "/redoc/"
+        },
+        "endpoints": {
+            "users": "/api/users/"
+        }
+    })
+
 urlpatterns = [
+    path("", home, name="home"),  # 👈 Root endpoint
     path("admin/", admin.site.urls),
-    path("api/users/", include("users.urls")),  # Users app endpoints
+    path("api/users/", include("users.urls")),
 
     # Swagger / ReDoc endpoints
     re_path(

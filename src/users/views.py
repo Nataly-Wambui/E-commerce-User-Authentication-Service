@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.conf import settings
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import authenticate, login, get_user_model
 import requests
 from django.utils.decorators import method_decorator
@@ -12,8 +13,10 @@ from .serializers import (
     UserProfileSerializer,
     UserUpdateSerializer,
 )
+from .auth0 import Auth0JSONWebTokenAuthentication  # ✅ import your Auth0 authentication class
 
 User = get_user_model()
+
 
 @method_decorator(csrf_exempt, name="dispatch")
 class UserRegisterView(generics.CreateAPIView):
@@ -39,6 +42,7 @@ class UserUpdateView(generics.UpdateAPIView):
 
 
 class AuthCheckView(APIView):
+    authentication_classes = [Auth0JSONWebTokenAuthentication]  # ✅ Auth0 tokens only
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
@@ -104,8 +108,8 @@ class LoginView(APIView):
 
 
 class RefreshTokenView(APIView):
-    authentication_classes = []
-    permission_classes = []
+    authentication_classes = [JWTAuthentication]  # ✅ Django refresh tokens
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
         refresh_token = request.data.get("refresh_token")
@@ -147,3 +151,26 @@ class RefreshTokenView(APIView):
                 {"error": f"Invalid refresh token: {str(e)}"},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
+
+# 🔑 Verify Token Endpoint (Auth0 access tokens)
+class VerifyTokenView(APIView):
+    authentication_classes = [Auth0JSONWebTokenAuthentication]  # ✅ Auth0 only
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        return Response({"valid": True}, status=status.HTTP_200_OK)
+
+
+# 🔑 Validate Token and return user details (Auth0 access tokens)
+class ValidateTokenView(APIView):
+    authentication_classes = [Auth0JSONWebTokenAuthentication]  # ✅ Auth0 only
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        return Response({
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+        }, status=status.HTTP_200_OK)
