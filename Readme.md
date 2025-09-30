@@ -1,10 +1,5 @@
 # 🛡️ User Authentication Service (Group 4)
 
-This service handles **user authentication and authorization** for our project.  
-It integrates **Auth0** for access tokens and uses **Django** to manage refresh tokens, user persistence, and token validation.
-
----
-
 ## ⚙️ Tech Stack
 - **Django 5**  
 - **Django REST Framework**  
