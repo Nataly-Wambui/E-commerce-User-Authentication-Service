@@ -1,4 +1,19 @@
-## User & Authentication Service
+# 🛡️ User Authentication Service (Group 4)
+
+This service handles **user authentication and authorization** for our project.  
+It integrates **Auth0** for access tokens and uses **Django** to manage refresh tokens, user persistence, and token validation.
+
+---
+
+## ⚙️ Tech Stack
+- **Django 5**  
+- **Django REST Framework**  
+- **Auth0** (Access token provider)  
+- **SimpleJWT** (Refresh token management)  
+- **PostgreSQL** (User storage)  
+
+---
+
 ### Core Responsibilities:
 User registration and profile management
 Authentication and authorization (JWT)
@@ -149,3 +164,6 @@ Should succeed with a valid token (200 OK, returns user details)
 Should succeed with a valid refresh token (200 OK, returns new access token).
 Should fail with an invalid or expired refresh token (401 Unauthorized).
 
+## 📌 API Endpoints
+
+Base URL:  http://localhost:8000/api/users/
