@@ -21,6 +21,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project files
 COPY src/ ./src/
 
+# Create logs directory
+RUN mkdir -p src/logs
+
 # Expose Django port
 EXPOSE 8000
 
