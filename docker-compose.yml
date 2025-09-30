@@ -19,15 +19,17 @@ services:
       timeout: 5s
       retries: 5
 
-  web:   # ✅ moved inside services
+  web:
     build: .
     container_name: user-auth-service
-    working_dir: /app/src   # 👈 point directly inside src
+    working_dir: /app/src
     command: >
-      sh -c "python manage.py migrate &&
+      sh -c "mkdir -p logs &&
+             python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
+      - ./logs:/src/logs
     ports:
       - "8000:8000"
     env_file:
